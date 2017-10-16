@@ -41,6 +41,8 @@
 		</languages>
 	</administration>
 	<media destination="com_synchronization" folder="media">
-		<filename>users.js</filename>
+		<folder>css</folder>
+		<folder>js</folder>
+		<folder>images</folder>
 	</media>
 </extension>

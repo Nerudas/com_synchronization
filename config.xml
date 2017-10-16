@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-	<fieldset name="global" label="JGLOBAL_FIELDSET_OPTIONS">
+	<fieldset name="remotedb" label="COM_SYNCHRONIZATION_CONFIGURATION_REMOTEDB">
 	</fieldset>
 	<fieldset name="permissions"
 			  label="JCONFIG_PERMISSIONS_LABEL"
