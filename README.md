@@ -1,2 +1,3 @@
-# com_synchronization
-Synchronization Component
+# Synchronization Component
+Version synchronization component
+
