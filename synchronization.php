@@ -14,9 +14,12 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\HTML\HTMLHelper;
 
 JLoader::register('SynchronizationHelper', __DIR__ . '/helpers/synchronization.php');
 
+HTMLHelper::_('behavior.tabstate');
+HTMLHelper::addIncludePath(__DIR__ . '/helpers/html');
 
 if (!Factory::getUser()->authorise('core.manage', 'com_synchronization'))
 {

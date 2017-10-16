@@ -1,3 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+	<fields name="params">
+		<fieldset name="params">
+			<field name="avatar"
+				   type="sql"
+				   label="COM_SYNCHRONIZATION_USERS_AVATAR"
+				   header="COM_SYNCHRONIZATION_ACTIONS_SELECT_FIELD"
+				   query="SELECT name, title FROM #__fields WHERE `context` = 'com_users.user'"
+				   key_field="name"
+				   value_field="title"/>
+		</fieldset>
+	</fields>
 </form>

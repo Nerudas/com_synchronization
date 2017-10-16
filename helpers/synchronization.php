@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\CMSHelper;
 
+
 class SynchronizationHelper extends CMSHelper
 {
 	public static $extension = 'com_synchronization';
@@ -31,6 +32,10 @@ class SynchronizationHelper extends CMSHelper
 		$uri    = (string) JUri::getInstance();
 		$return = urlencode(base64_encode($uri));
 
+		JHtmlSidebar::addEntry(JText::_('COM_SYNCHRONIZATION_HOME'),
+			'index.php?option=com_synchronization&view=home',
+			$vName == 'home');
+
 		JHtmlSidebar::addEntry(JText::_('COM_SYNCHRONIZATION_USERS'),
 			'index.php?option=com_synchronization&view=users',
 			$vName == 'users');
@@ -39,4 +44,5 @@ class SynchronizationHelper extends CMSHelper
 			'index.php?option=com_config&view=component&component=com_synchronization&return=' . $return,
 			$vName == 'config');
 	}
+
 }
