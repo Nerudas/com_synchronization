@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
 <config>
 	<fieldset name="remotedb" label="COM_SYNCHRONIZATION_CONFIGURATION_REMOTEDB">
+		<fields name="remotedb">
+			<field name="driver" type="databaseconnection" label="COM_SYNCHRONIZATION_CONFIGURATION_REMOTEDB_DRIVER"/>
+			<field name="host" type="text" label="COM_SYNCHRONIZATION_CONFIGURATION_REMOTEDB_HOST" hint="localhost"/>
+			<field name="user" type="text" label="COM_SYNCHRONIZATION_CONFIGURATION_REMOTEDB_USER"/>
+			<field name="password" type="password" label="COM_SYNCHRONIZATION_CONFIGURATION_REMOTEDB_PASSWORD"/>
+			<field name="name" type="text" label="COM_SYNCHRONIZATION_CONFIGURATION_REMOTEDB_NAME"/>
+			<field name="prefix" type="text" label="COM_SYNCHRONIZATION_CONFIGURATION_REMOTEDB_PREFIX" hint="jos_"/>
+		</fields>
 	</fieldset>
 	<fieldset name="permissions"
 			  label="JCONFIG_PERMISSIONS_LABEL"
