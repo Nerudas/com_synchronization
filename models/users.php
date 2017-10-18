@@ -229,12 +229,16 @@ class SynchronizationModelUsers extends AdminModel
 			->join('LEFT', $db->quoteName('#__fields', 'f') . ' ON f.id = v.field_id')
 			->where($db->quoteName('f.context') . ' = ' . $db->quote('com_users.user'));
 		$db->setQuery($query);
-		$ids   = $db->loadColumn();
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__fields_values'))
-			->where($db->quoteName('field_id') . ' IN (' . implode(',', $ids) . ')');
-		$db->setQuery($query);
-		$result = $db->execute();
+
+		$ids = $db->loadColumn();
+		if (count($ids) > 0)
+		{
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__fields_values'))
+				->where($db->quoteName('field_id') . ' IN (' . implode(',', $ids) . ')');
+			$db->setQuery($query);
+			$result = $db->execute();
+		}
 
 		// Get users
 		$query = $db->getQuery(true)
