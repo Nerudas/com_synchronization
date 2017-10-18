@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 
 class SynchronizationViewUsers extends HtmlView
@@ -75,12 +76,17 @@ class SynchronizationViewUsers extends HtmlView
 			'users'
 		);
 
+		// ToolBar
 		JToolbarHelper::custom('users.apply', 'cog', '',
-			'COM_SYNCHRONIZATION_ACTIONS_SAVE',false);
+			'COM_SYNCHRONIZATION_ACTIONS_SAVE', false);
 		JToolbarHelper::custom('users.synchronize', 'loop', '',
-			'COM_SYNCHRONIZATION_USERS_SYNCHRONIZE' ,false);
+			'COM_SYNCHRONIZATION_USERS_SYNCHRONIZE', false);
 		JToolbarHelper::custom('users.synchronizeProfiles', 'loop', '',
-			'COM_SYNCHRONIZATION_USERS_SYNCHRONIZE_PROFILES',false);
+			'COM_SYNCHRONIZATION_USERS_SYNCHRONIZE_PROFILES', false);
+		if (Factory::getUser()->authorise('core.admin', 'com_jzcron'))
+		{
+			JToolbarHelper::preferences('com_synchronization');
+		}
 
 		// Sidebar
 		SynchronizationHelper::addSubmenu('users');

@@ -14,7 +14,11 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.file');
 
 class SynchronizationModelUsers extends AdminModel
 {
@@ -22,7 +26,7 @@ class SynchronizationModelUsers extends AdminModel
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   string  $pk  The type of the primary key.
+	 * @param   string $pk The type of the primary key.
 	 *
 	 * @return  mixed  Object on success, false on failure.
 	 *
@@ -49,11 +53,11 @@ class SynchronizationModelUsers extends AdminModel
 
 		// Convert to the \JObject before adding other data.
 		$properties = $table->getProperties(1);
-		$item = ArrayHelper::toObject($properties, '\JObject');
+		$item       = ArrayHelper::toObject($properties, '\JObject');
 
 		if (property_exists($item, 'params'))
 		{
-			$registry = new Registry($item->params);
+			$registry     = new Registry($item->params);
 			$item->params = $registry->toArray();
 		}
 
@@ -141,6 +145,122 @@ class SynchronizationModelUsers extends AdminModel
 
 		return parent::save($data);
 	}
+
+	/**
+	 * Method to synchronize users
+	 *
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   1.0.0
+	 */
+	public function synchronize()
+	{
+		$db       = Factory::getDbo();
+		$remoteDB = SynchronizationHelper::getRemoteDB();
+
+		if (!$remoteDB)
+		{
+			$this->setError(Text::_('COM_SYNCHRONIZATION_ERROR_REMOTEDB'));
+
+			return false;
+		}
+
+		$tables = array('users', 'user_usergroup_map', 'usergroups', 'viewlevels', 'slogin_users');
+
+		$remoteData = array();
+		// Get Data
+		foreach ($tables as $table)
+		{
+			// Get slogin_users
+			$query = $remoteDB->getQuery(true);
+			$query->select('*')
+				->from('#__' . $table);
+			$remoteDB->setQuery($query);
+			$data = $remoteDB->loadObjectList();
+			if (count($data) == 0)
+			{
+				$this->setError(Text::sprintf('COM_SYNCHRONIZATION_USERS_ERORR_NODATA', $table));
+
+				return false;
+			}
+			$remoteData[$table] = $data;
+		}
+
+		// Inset Data
+		foreach ($tables as $table)
+		{
+			$name = '#__' . $table;
+			$db->truncateTable($name);
+			foreach ($remoteData[$table] as $datum)
+			{
+				$db->insertObject($name, $datum);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to synchronize users
+	 *
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   1.0.0
+	 */
+	public function synchronizeProfiles()
+	{
+
+		$db       = Factory::getDbo();
+		$remoteDB = SynchronizationHelper::getRemoteDB();
+
+		if (!$remoteDB)
+		{
+			$this->setError(Text::_('COM_SYNCHRONIZATION_ERROR_REMOTEDB'));
+
+			return false;
+		}
+
+		// Clear extra fields
+		$query = $db->getQuery(true)
+			->select('field_id')
+			->from($db->quoteName('#__fields_values', 'v'))
+			->join('LEFT', $db->quoteName('#__fields', 'f') . ' ON f.id = v.field_id')
+			->where($db->quoteName('f.context') . ' = ' . $db->quote('com_users.user'));
+		$db->setQuery($query);
+		$ids   = $db->loadColumn();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__fields_values'))
+			->where($db->quoteName('field_id') . ' IN (' . implode(',', $ids) . ')');
+		$db->setQuery($query);
+		$result = $db->execute();
+
+		// Get users
+		$query = $db->getQuery(true)
+			->select(array('id', 'name'))
+			->from('#__users');
+		$db->setQuery($query);
+		$users = $db->loadAssocList('id', 'name');
+
+		// Recreate images folders
+		$imagesPath = JPATH_ROOT . '/images/users';
+		$folders    = JFolder::folders($imagesPath);
+		foreach ($folders as $folder)
+		{
+			if ($folder !== '0')
+			{
+				JFolder::delete($imagesPath . '/' . $folder);
+			}
+		}
+		foreach (array_keys($users) as $id)
+		{
+			JFile::write($imagesPath . '/' . $id . '/index.html', '<!DOCTYPE html><title></title>');
+		}
+
+		return $users;
+	}
+
 
 }
 

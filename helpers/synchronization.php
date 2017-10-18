@@ -11,6 +11,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\CMSHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Utilities\ArrayHelper;
 
 
 class SynchronizationHelper extends CMSHelper
@@ -43,6 +45,44 @@ class SynchronizationHelper extends CMSHelper
 		JHtmlSidebar::addEntry(JText::_('COM_SYNCHRONIZATION_CONFIG'),
 			'index.php?option=com_config&view=component&component=com_synchronization&return=' . $return,
 			$vName == 'config');
+	}
+
+	/**
+	 * Get Remote database
+	 *
+	 * @return  mixed bool Jdatabase
+	 *
+	 * @since   1.0.0
+	 */
+	static function getRemoteDB()
+	{
+		$config = ComponentHelper::getParams('com_synchronization');
+		$object = $config->get('remotedb', array());
+		$params = ArrayHelper::fromObject($object, false);
+
+		// Prepare options
+		$options = array();
+		foreach ($params as $key => $param)
+		{
+			if (empty($param))
+			{
+				return false;
+			}
+			$options[$key] = $param;
+		}
+
+		// Get Database
+		$db = JDatabaseDriver::getInstance($options);
+		try
+		{
+			$db->getVersion();
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return $db;
 	}
 
 }
