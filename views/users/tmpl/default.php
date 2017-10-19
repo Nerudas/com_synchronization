@@ -72,9 +72,7 @@ $doc->addScriptDeclaration('
 						</ul>
 					</div>
 				</div>
-
 			</div>
-
 		</div>
 		<h2><?php echo Text::_('COM_SYNCHRONIZATION_PARAMS'); ?></h2>
 		<div class="form-horizontal">

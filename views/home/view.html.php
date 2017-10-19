@@ -28,6 +28,7 @@ class SynchronizationViewHome extends HtmlView
 		JToolBarHelper::title(JText::_('COM_SYNCHRONIZATION'), 'loop');
 		JToolBarHelper::help($ref = '', $com = false,
 			$override = 'https://github.com/Nerudas/com_synchronization/blob/master/README.md');
+
 		return parent::display($tpl);
 	}
 }
