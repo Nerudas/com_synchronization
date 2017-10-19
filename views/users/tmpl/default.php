@@ -47,8 +47,9 @@ $doc->addScriptDeclaration('
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="j-main-container" class="span10">
 
+
+	<div id="j-main-container" class="span10">
 		<div id="results">
 			<h2><?php echo Text::_('COM_SYNCHRONIZATION_ACTIONS_SYNCHRONIZATION'); ?></h2>
 			<div class="error alert alert-error">
@@ -57,8 +58,23 @@ $doc->addScriptDeclaration('
 				<div class="text"></div>
 				<div class="bar"></div>
 			</div>
-			<ul class="list">
-			</ul>
+			<div class="accordion">
+				<div class="accordion-heading">
+					<h3>
+						<a class="accordion-toggle" href="#resultsCollapse" data-toggle="collapse">
+							<?php echo Text::_('COM_SYNCHRONIZATION_USERS_SYNCHRONIZE_RESULTS'); ?>
+						</a>
+					</h3>
+				</div>
+				<div id="resultsCollapse" class="accordion-body in collapse">
+					<div class="accordion-inner">
+						<ul class="list">
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
 		</div>
 		<h2><?php echo Text::_('COM_SYNCHRONIZATION_PARAMS'); ?></h2>
 		<div class="form-horizontal">

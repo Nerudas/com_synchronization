@@ -6,8 +6,43 @@
 				   type="sql"
 				   label="COM_SYNCHRONIZATION_USERS_AVATAR"
 				   header="COM_SYNCHRONIZATION_ACTIONS_SELECT_FIELD"
-				   query="SELECT name, title FROM #__fields WHERE `context` = 'com_users.user'"
-				   key_field="name"
+				   query="SELECT id, title FROM #__fields WHERE `context` = 'com_users.user'"
+				   key_field="id"
+				   value_field="title"/>
+			<field name="phones"
+				   type="sql"
+				   label="COM_SYNCHRONIZATION_USERS_PHONES"
+				   header="COM_SYNCHRONIZATION_ACTIONS_SELECT_FIELD"
+				   query="SELECT id, title FROM #__fields WHERE `context` = 'com_users.user'"
+				   key_field="id"
+				   value_field="title"/>
+			<field name="vk"
+				   type="sql"
+				   label="COM_SYNCHRONIZATION_USERS_VK"
+				   header="COM_SYNCHRONIZATION_ACTIONS_SELECT_FIELD"
+				   query="SELECT id, title FROM #__fields WHERE `context` = 'com_users.user'"
+				   key_field="id"
+				   value_field="title"/>
+			<field name="facebook"
+				   type="sql"
+				   label="COM_SYNCHRONIZATION_USERS_FACEBOOK"
+				   header="COM_SYNCHRONIZATION_ACTIONS_SELECT_FIELD"
+				   query="SELECT id, title FROM #__fields WHERE `context` = 'com_users.user'"
+				   key_field="id"
+				   value_field="title"/>
+			<field name="status"
+				   type="sql"
+				   label="COM_SYNCHRONIZATION_USERS_STATUS"
+				   header="COM_SYNCHRONIZATION_ACTIONS_SELECT_FIELD"
+				   query="SELECT id, title FROM #__fields WHERE `context` = 'com_users.user'"
+				   key_field="id"
+				   value_field="title"/>
+			<field name="about"
+				   type="sql"
+				   label="COM_SYNCHRONIZATION_USERS_ABOUT"
+				   header="COM_SYNCHRONIZATION_ACTIONS_SELECT_FIELD"
+				   query="SELECT id, title FROM #__fields WHERE `context` = 'com_users.user'"
+				   key_field="id"
 				   value_field="title"/>
 		</fieldset>
 	</fields>

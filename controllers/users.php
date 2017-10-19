@@ -71,14 +71,25 @@ class SynchronizationControllerUsers extends FormController
 	 */
 	public function synchronizeProfiles()
 	{
+
 		$app   = Factory::getApplication();
 		$model = $this->getModel();
 		$users = $model->synchronizeProfiles();
 
-		if (!$users)
+		if (!$users || !Session::checkToken())
 		{
-			$this->setError(Text::sprintf('COM_SYNCHRONIZATION_ERROR_SYNCHRONIZE', $model->getError()));
+			if (!$users)
+			{
+				$this->setError(Text::sprintf('COM_SYNCHRONIZATION_ERROR_SYNCHRONIZE', $model->getError()));
+			}
+			if (!Session::checkToken())
+			{
+				$this->setError(Text::_('JINVALID_TOKEN'));
+			}
 			echo new JsonResponse('', $this->getError(), true);
+			$app->close();
+
+			return false;
 		}
 
 		$response        = new stdClass();
@@ -89,6 +100,52 @@ class SynchronizationControllerUsers extends FormController
 			$response->html .= '<li data-id="' . $id . '">' . '<i class="icon-loop"></i>' . $name . '</li>';
 		}
 		echo new JsonResponse($response);
+
+		$app->close();
+
+		return true;
+	}
+
+	/**
+	 * Method to synchronizeProfiles
+	 *
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   1.0.0
+	 */
+	public function synchronizeProfile()
+	{
+
+		// Check for request forgeries.
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
+
+		$app   = Factory::getApplication();
+		$model = $this->getModel();
+		$id    = $app->input->get('id', 0, 'int');
+		$user  = $model->synchronizeProfile($id);
+		if (!$user || !Session::checkToken())
+		{
+			if (!$user)
+			{
+				$this->setError($model->getError());
+			}
+			if (!Session::checkToken())
+			{
+				$this->setError(Text::_('JINVALID_TOKEN'));
+
+			}
+			$error = (!empty($this->getError())) ? ' <span class="text-error">' . $this->getError() . '</span>' : '';
+			$text  = '<i class="icon-cancel-2 text-error"></i>' . Factory::getUser($id)->name . $error;
+			echo new JsonResponse($text, $this->getError(), true);
+			$app->close();
+
+			return false;
+		}
+
+
+		echo new JsonResponse('<i class="icon-ok text-success"></i>' . $user);
 
 		$app->close();
 
