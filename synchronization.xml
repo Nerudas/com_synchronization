@@ -45,4 +45,9 @@
 		<folder>js</folder>
 		<folder>images</folder>
 	</media>
+	<updateservers>
+		<server type="extension" priority="1" name="Synchronization Component">
+			https://update.nerudas.ru?extension=com_synchronization
+		</server>
+	</updateservers>
 </extension>
