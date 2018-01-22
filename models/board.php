@@ -187,18 +187,23 @@ class SynchronizationModelBoard extends AdminModel
 
 		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_board/models');
 		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_nerudas/models');
-		$boardModel = BaseDatabaseModel::getInstance('item', 'BoardModel');
-		$k2Model    = BaseDatabaseModel::getInstance('K2', 'NerudasModel');
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_board/tables');
 		JLoader::register('K2HelperUtilities', JPATH_SITE . '/components/com_k2/helpers/utilities.php');
+
 		foreach ($items as $k2ID => $k2Item)
 		{
+			$boardModel = BaseDatabaseModel::getInstance('item', 'BoardModel');
+			$k2Model    = BaseDatabaseModel::getInstance('K2', 'NerudasModel');
+
+
 			$k2Item->extra_fields = $k2Model->getItemExtraFields($k2Item->extra_fields, $k2Item);
+			$k2Item->image        = JPATH_ROOT . '/media/k2/items/src/' . md5('Image' . $k2ID) . '.jpg';;
 			if ($k2Item->extra_fields)
 			{
 				$k2Item->extra = $k2Model->getItemExtra($k2Item->extra_fields);
 			}
-			$boardModel->setState('item.id', 0);
+
+			$item               = array();
 			$item['id']         = 0;
 			$item['title']      = $k2Item->title;
 			$item['text']       = $k2Item->introtext;
@@ -304,21 +309,17 @@ class SynchronizationModelBoard extends AdminModel
 			JFile::write($folder . '/index.html', '<!DOCTYPE html><title></title>');
 			$item['imagefolder'] = str_replace(JPATH_ROOT . '/', '', $folder);
 
-			$image = JPATH_ROOT . '/media/k2/items/src/' . md5('Image' . $k2ID) . '.jpg';
-			if (JFile::exists($image))
+
+			$item['images'] = array();
+			if (JFile::exists($k2Item->image))
 			{
 				// Upload image
 				$newImage = uniqid() . '.jpg';
-				JFile::copy($image, $folder . '/' . $newImage);
+				JFile::copy($k2Item->image, $folder . '/' . $newImage);
 				$item['images'] = array('image_1' => array(
 					'file' => $newImage,
 					'src'  => $item['imagefolder'] . '/' . $newImage
 				));
-
-			}
-			if (!empty($item['images']) && !JFile::exists(JPATH_ROOT . '/' . $item['images']['image_1']['src']))
-			{
-				$item['images'] = array();
 			}
 
 			$boardModel->save($item);
