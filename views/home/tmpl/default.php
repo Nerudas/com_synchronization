@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 $uri    = (string) JUri::getInstance();
 $return = urlencode(base64_encode($uri));
 
-HTMLHelper::_('stylesheet', 'media/com_synchronization/css/home.css', array('version' => 'auto'));
+HTMLHelper::_('stylesheet', 'media/com_synchronization/css/home.min.css', array('version' => 'auto'));
 ?>
 
 
