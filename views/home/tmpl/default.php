@@ -3,7 +3,7 @@
  * @package    Synchronization Component
  * @version    1.0.0
  * @author     Nerudas  - nerudas.ru
- * @copyright  Copyright (c) 2013 - 2017 Nerudas. All rights reserved.
+ * @copyright  Copyright (c) 2013 - 2018 Nerudas. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  * @link       https://nerudas.ru
  */
@@ -24,12 +24,12 @@ HTMLHelper::_('stylesheet', 'media/com_synchronization/css/home.css', array('ver
 	<div class="span9">
 		<div class="row-fluid icons-block">
 			<div class="span2">
-				<a href="/administrator/index.php?option=com_synchronization&view=users">
+				<a href="/administrator/index.php?option=com_synchronization&view=board">
 					<div class="img">
-						<span class="icon-users large-icon"></span>
+						<span class="icon-archive large-icon"></span>
 					</div>
 					<div class="title">
-						<?php echo Text::_('COM_SYNCHRONIZATION_USERS'); ?>
+						<?php echo Text::_('COM_SYNCHRONIZATION_BOARD'); ?>
 					</div>
 				</a>
 			</div>
@@ -59,4 +59,3 @@ HTMLHelper::_('stylesheet', 'media/com_synchronization/css/home.css', array('ver
 		</div>
 	</div>
 </div>
-

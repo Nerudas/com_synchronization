@@ -1,5 +1,4 @@
-<?php
-/**
+/*
  * @package    Synchronization Component
  * @version    1.0.0
  * @author     Nerudas  - nerudas.ru
@@ -8,17 +7,3 @@
  * @link       https://nerudas.ru
  */
 
-defined('_JEXEC') or die;
-
-use Joomla\CMS\MVC\Controller\BaseController;
-
-class SynchronizationController extends BaseController
-{
-	/**
-	 * The default view.
-	 *
-	 * @var    string
-	 * @since   1.0.0
-	 */
-	protected $default_view = 'home';
-}
