@@ -171,7 +171,7 @@ class SynchronizationModelBoard extends AdminModel
 			->where('published = 1')
 			->where('trash = 0')
 			->where('access = 1')
-			->order('created DESC');
+			->order('created ASC');
 
 
 		if ($data['total'])
