@@ -352,7 +352,6 @@ class SynchronizationModelProfiles extends AdminModel
 				}
 			}
 
-
 			$data['access']  = 1;
 			$data['attribs'] = array('item_layout' => '');
 			$data['region']  = $k2Item->region;
@@ -365,7 +364,6 @@ class SynchronizationModelProfiles extends AdminModel
 
 			$this->addRedirect('/persons/' . $k2Item->id . '.html', $link);
 		}
-
 
 		// Socials
 		$query = $db->getQuery(true)
