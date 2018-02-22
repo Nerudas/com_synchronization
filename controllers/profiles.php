@@ -14,7 +14,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Response\JsonResponse;
 
-class SynchronizationControllerBoard extends FormController
+class SynchronizationControllerProfiles extends FormController
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -22,7 +22,7 @@ class SynchronizationControllerBoard extends FormController
 	 * @var    string
 	 * @since  1.0.0
 	 */
-	protected $text_prefix = 'COM_SYNCHRONIZATION_BOARD';
+	protected $text_prefix = 'COM_SYNCHRONIZATION_PROFILES';
 
 	/**
 	 * Method to parse a record.
@@ -32,7 +32,7 @@ class SynchronizationControllerBoard extends FormController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   1.0.0
+	 * @since   1.0.1
 	 */
 	public function parse($key = null, $urlVar = null)
 	{

@@ -15,14 +15,14 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
 
-class SynchronizationViewBoard extends HtmlView
+class SynchronizationViewProfiles extends HtmlView
 {
 	/**
 	 * The JForm object
 	 *
 	 * @var  JForm
 	 *
-	 * @since   1.0.0
+	 * @since   1.0.1
 	 */
 	protected $form;
 
@@ -31,7 +31,7 @@ class SynchronizationViewBoard extends HtmlView
 	 *
 	 * @var  object
 	 *
-	 * @since   1.0.0
+	 * @since   1.0.1
 	 */
 	protected $item;
 
@@ -40,7 +40,7 @@ class SynchronizationViewBoard extends HtmlView
 	 *
 	 * @var  object
 	 *
-	 * @since   1.0.0
+	 * @since   1.0.1
 	 */
 	protected $state;
 
@@ -49,7 +49,7 @@ class SynchronizationViewBoard extends HtmlView
 	 *
 	 * @var  string
 	 *
-	 * @since   1.0.0
+	 * @since   1.0.1
 	 */
 	protected $sidebar;
 
@@ -62,7 +62,7 @@ class SynchronizationViewBoard extends HtmlView
 	 * @return mixed A string if successful, otherwise an Error object.
 	 *
 	 * @throws Exception
-	 * @since   1.0.0
+	 * @since   1.0.1
 	 */
 	public function display($tpl = null)
 	{
@@ -72,16 +72,16 @@ class SynchronizationViewBoard extends HtmlView
 
 		// Title
 		JToolBarHelper::title(
-			Text::_('COM_SYNCHRONIZATION') . ': ' . JText::_('COM_SYNCHRONIZATION_BOARD'),
+			Text::_('COM_SYNCHRONIZATION') . ': ' . JText::_('COM_SYNCHRONIZATION_PROFILES'),
 			'users'
 		);
 
 		// ToolBar
-		JToolbarHelper::custom('board.apply', 'cog', '',
+		JToolbarHelper::custom('profiles.apply', 'cog', '',
 			'COM_SYNCHRONIZATION_ACTIONS_SAVE', false);
 
-		JToolbarHelper::custom('board.parse', 'loop', '',
-			'COM_SYNCHRONIZATION_BOARD_PARSE', false);
+		JToolbarHelper::custom('profiles.parse', 'loop', '',
+			'COM_SYNCHRONIZATION_PROFILES_PARSE', false);
 
 		if (Factory::getUser()->authorise('core.admin', 'com_synchronization'))
 		{
@@ -89,7 +89,7 @@ class SynchronizationViewBoard extends HtmlView
 		}
 
 		// Sidebar
-		SynchronizationHelper::addSubmenu('board');
+		SynchronizationHelper::addSubmenu('profiles');
 		$this->sidebar = JHtmlSidebar::render();
 
 		// Check for errors.

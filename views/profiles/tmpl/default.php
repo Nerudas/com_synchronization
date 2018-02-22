@@ -23,7 +23,7 @@ HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('formbehavior.chosen', 'select');
 HTMLHelper::_('stylesheet', 'media/com_synchronization/css/board.min.css', array('version' => 'auto'));
 HTMLHelper::_('stylesheet', 'media/com_synchronization/css/default.min.css', array('version' => 'auto'));
-HTMLHelper::_('script', 'media/com_synchronization/js/board.min.js', array('version' => 'auto'));
+HTMLHelper::_('script', 'media/com_synchronization/js/profiles.min.js', array('version' => 'auto'));
 
 $doc->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
@@ -43,7 +43,7 @@ $doc->addScriptDeclaration('
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_synchronization&view=board'); ?>" method="post"
+<form action="<?php echo Route::_('index.php?option=com_synchronization&view=profiles'); ?>" method="post"
 	  name="adminForm" id="item-form" class="form-validate" enctype="multipart/form-data">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>

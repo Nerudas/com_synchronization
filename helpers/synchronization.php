@@ -38,9 +38,9 @@ class SynchronizationHelper extends CMSHelper
 			'index.php?option=com_synchronization&view=home',
 			$vName == 'home');
 
-		JHtmlSidebar::addEntry(JText::_('COM_SYNCHRONIZATION_BOARD'),
-			'index.php?option=com_synchronization&view=board',
-			$vName == 'board');
+		JHtmlSidebar::addEntry(JText::_('COM_SYNCHRONIZATION_PROFILES'),
+			'index.php?option=com_synchronization&view=profiles',
+			$vName == 'profiles');
 
 		JHtmlSidebar::addEntry(JText::_('COM_SYNCHRONIZATION_CONFIG'),
 			'index.php?option=com_config&view=component&component=com_synchronization&return=' . $return,
