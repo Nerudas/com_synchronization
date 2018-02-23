@@ -43,7 +43,6 @@
 	<media destination="com_synchronization" folder="media">
 		<folder>css</folder>
 		<folder>js</folder>
-		<folder>images</folder>
 	</media>
 	<updateservers>
 		<server type="extension" priority="1" name="Synchronization Component">
