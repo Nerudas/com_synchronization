@@ -200,7 +200,7 @@ class SynchronizationModelProfiles extends AdminModel
 		$siteRouter = $site->getRouter();
 
 		$link = str_replace(Uri::base(true), trim(Uri::root(true), '/'),
-			$siteRouter->build(ProfilesHelperRoute::getProfilesRoute())->toString());
+			$siteRouter->build(ProfilesHelperRoute::getListRoute())->toString());
 
 		$this->addRedirect('/persons.html', $link);
 
