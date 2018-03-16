@@ -353,8 +353,16 @@ class SynchronizationModelProfiles extends AdminModel
 			}
 
 			$data['access']  = 1;
-			$data['attribs'] = array('item_layout' => '');
+			$data['attribs'] = array('profile_layout' => '');
 			$data['region']  = $k2Item->region;
+			$data['metakey']    = '';
+			$data['metadesc']   = '';
+			$data['metadata']   = array(
+				'robots'     => '',
+				'author'     => '',
+				'rights'     => '',
+				'xreference' => '',
+			);
 			$data['tags']    = '';
 
 			$profileModel->save($data);
