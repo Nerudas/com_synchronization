@@ -340,6 +340,11 @@ class SynchronizationModelCompanies extends AdminModel
 			$newCompanyID = $companyModel->save($data);
 			$oldCompanyID = $k2Item->id;
 
+			// Set Redirect
+			$link = str_replace(Uri::base(true), trim(Uri::root(true), '/'),
+				$siteRouter->build(CompaniesHelperRoute::getCompanyRoute($newCompanyID))->toString());
+			$this->addRedirect('/company/' . $oldCompanyID . '.html', $link);
+
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select(array('profile.created_by as user_id', 'profile.extra_fields as extra'))
@@ -370,7 +375,6 @@ class SynchronizationModelCompanies extends AdminModel
 				$db->insertObject('#__companies_employees', $employee);
 			}
 		}
-
 		$count = count($k2Items);
 
 		return $count;
