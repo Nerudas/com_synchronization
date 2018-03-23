@@ -356,23 +356,26 @@ class SynchronizationModelCompanies extends AdminModel
 			$employees = $db->loadObjectList();
 			foreach ($employees as $employee)
 			{
-				$employee->company_id = $newCompanyID;
-				$employee->position   = '';
-				if (!empty($employee->extra))
+				if (!empty($employee->user_id))
 				{
-					$extra = json_decode($employee->extra);
-					unset($employee->extra);
-
-					foreach ($extra as $value)
+					$employee->company_id = $newCompanyID;
+					$employee->position   = '';
+					if (!empty($employee->extra))
 					{
-						if ($value->id == 48)
+						$extra = json_decode($employee->extra);
+						unset($employee->extra);
+
+						foreach ($extra as $value)
 						{
-							$employee->position = $value->value;
+							if ($value->id == 48)
+							{
+								$employee->position = $value->value;
+							}
 						}
 					}
-				}
 
-				$db->insertObject('#__companies_employees', $employee);
+					$db->insertObject('#__companies_employees', $employee);
+				}
 			}
 		}
 		$count = count($k2Items);
