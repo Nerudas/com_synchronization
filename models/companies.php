@@ -210,7 +210,7 @@ class SynchronizationModelCompanies extends AdminModel
 			}
 
 			$data                = array();
-			$data['title']       = $k2Item->title;
+			$data['name']        = $k2Item->title;
 			$data['alias']       = '';
 			$data['about']       = $k2Item->introtext;
 			$data['region']      = $k2Item->region;
@@ -373,8 +373,21 @@ class SynchronizationModelCompanies extends AdminModel
 							}
 						}
 					}
+					$query = $db->getQuery(true)
+						->select('company_id')
+						->from('#__companies_employees')
+						->where('company_id = ' . $employee->company_id)
+						->where('user_id = ' . $employee->user_id);
+					$db->setQuery($query);
 
-					$db->insertObject('#__companies_employees', $employee);
+					if (!empty($db->loadResult()))
+					{
+						$db->updateObject('#__companies_employees', $employee, array('company_id', 'user_id'));
+					}
+					else
+					{
+						$db->insertObject('#__companies_employees', $employee);
+					}
 				}
 			}
 		}
