@@ -9,9 +9,9 @@
 
 (function ($) {
 	$(document).ready(function () {
-		$('[onclick*="profiles.parse"]').attr('id', 'profilesParse').removeAttr('onclick');
+		$('[onclick*="info.parse"]').attr('id', 'infoParse').removeAttr('onclick');
 
-		$('#profilesParse').on('click', function () {
+		$('#infoParse').on('click', function () {
 			parseProfilesItems();
 		});
 	});
@@ -31,14 +31,13 @@
 		var ajaxData = {},
 			formData = $(form).serializeArray();
 		$(formData).each(function (i, field) {
-			var name = field.name; //.replace('jform[params][', '').replace(']', '');
+			var name = field.name;
 			ajaxData[name] = field.value;
 		});
-		ajaxData['task'] = 'profiles.parse';
+		ajaxData['task'] = 'info.parse';
 		ajaxData['first'] = 'true';
 
-		// Preprare
-		//$('#profilesParse').attr('disabled', 'true');
+		// Prepare
 		results.hide();
 		error.hide();
 		error.html('');

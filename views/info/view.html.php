@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
 
-class SynchronizationViewProfiles extends HtmlView
+class SynchronizationViewInfo extends HtmlView
 {
 	/**
 	 * The JForm object
@@ -72,16 +72,16 @@ class SynchronizationViewProfiles extends HtmlView
 
 		// Title
 		JToolBarHelper::title(
-			Text::_('COM_SYNCHRONIZATION') . ': ' . JText::_('COM_SYNCHRONIZATION_PROFILES'),
+			Text::_('COM_SYNCHRONIZATION') . ': ' . JText::_('COM_SYNCHRONIZATION_INFO'),
 			'users'
 		);
 
 		// ToolBar
-		JToolbarHelper::custom('profiles.apply', 'cog', '',
+		JToolbarHelper::custom('info.apply', 'cog', '',
 			'COM_SYNCHRONIZATION_ACTIONS_SAVE', false);
 
-		JToolbarHelper::custom('profiles.parse', 'loop', '',
-			'COM_SYNCHRONIZATION_PROFILES_PARSE', false);
+		JToolbarHelper::custom('info.parse', 'loop', '',
+			'COM_SYNCHRONIZATION_INFO_PARSE', false);
 
 		if (Factory::getUser()->authorise('core.admin', 'com_synchronization'))
 		{
@@ -89,7 +89,7 @@ class SynchronizationViewProfiles extends HtmlView
 		}
 
 		// Sidebar
-		SynchronizationHelper::addSubmenu('profiles');
+		SynchronizationHelper::addSubmenu('info');
 		$this->sidebar = JHtmlSidebar::render();
 
 		// Check for errors.

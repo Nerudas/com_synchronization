@@ -23,22 +23,12 @@ HTMLHelper::_('stylesheet', 'media/com_synchronization/css/home.min.css', array(
 <div class="row-fluid">
 	<div class="row-fluid icons-block">
 		<div class="span2">
-			<a href="/administrator/index.php?option=com_synchronization&view=profiles">
+			<a href="/administrator/index.php?option=com_synchronization&view=info">
 				<div class="img">
 					<span class="icon-list large-icon"></span>
 				</div>
 				<div class="title">
-					<?php echo Text::_('COM_SYNCHRONIZATION_PROFILES'); ?>
-				</div>
-			</a>
-		</div>
-		<div class="span2">
-			<a href="/administrator/index.php?option=com_synchronization&view=companies">
-				<div class="img">
-					<span class="icon-list large-icon"></span>
-				</div>
-				<div class="title">
-					<?php echo Text::_('COM_SYNCHRONIZATION_COMPANIES'); ?>
+					<?php echo Text::_('COM_SYNCHRONIZATION_INFO'); ?>
 				</div>
 			</a>
 		</div>
