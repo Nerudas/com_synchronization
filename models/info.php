@@ -158,11 +158,207 @@ class SynchronizationModelInfo extends AdminModel
 
 	public function parse($data)
 	{
-		$items  = array();
+		$items = array();
+
+		$infoCategories     = NerudasK2Helper:: getCategoryTree(274);
+		$rabotaemCategories = array(40);
+		$herakCategories    = array(315);
+		$categories         = array_merge($infoCategories, $rabotaemCategories, $herakCategories);
+		// $testIDS            = array(159255, 159254, 159253, 159246, 156234, 156117); // 4 info + 1 herak + 1 rabotaem
+
 		$select = ($data['total']) ? 'COUNT(*)' : '*';
 		$db     = Factory::getDbo();
+		$query  = $db->getQuery(true)
+			->select($select)
+			->from($db->quoteName('#__k2_items'))
+			->where($db->quoteName('catid') . ' IN (' . implode(',', $categories) . ')')
+			// ->where($db->quoteName('id') . ' IN (' . implode(',', $testIDS) . ')')
+			->order('created ASC');
+		if ($data['total'])
+		{
+			$db->setQuery($query);
+			$count = $db->loadResult();
 
-		$count = 0;
+			return $count;
+		}
+		$db->setQuery($query, $data['offset'], $data['limit']);
+		$k2Items = $db->loadObjectList('id');
+
+
+		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_info/models');
+		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_nerudas/models');
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_info/tables');
+
+		JLoader::register('K2HelperUtilities', JPATH_SITE . '/components/com_k2/helpers/utilities.php');
+		JLoader::register('InfoHelperRoute', JPATH_SITE . '/components/com_info/helpers/route.php');
+		JLoader::register('K2HelperRoute', JPATH_SITE . '/components/com_k2/helpers/route.php');
+		JLoader::register('imageFolderHelper', JPATH_PLUGINS . '/fieldtypes/ajaximage/helpers/imagefolder.php');
+
+		$infoModel         = BaseDatabaseModel::getInstance('Item', 'InfoModel');
+		$k2Model           = BaseDatabaseModel::getInstance('K2', 'NerudasModel');
+		$imageFolderHelper = new imageFolderHelper('images/info');
+
+		$site       = JApplication::getInstance('site');
+		$siteRouter = $site->getRouter();
+
+		foreach ($k2Items as $k2Item)
+		{
+			$k2Item->extra_fields = $k2Model->getItemExtraFields($k2Item->extra_fields, $k2Item);
+			$k2Item->image        = JPATH_ROOT . '/media/k2/items/src/' . md5('Image' . $k2Item->id) . '.jpg';
+			if ($k2Item->extra_fields)
+			{
+				$k2Item->extra = $k2Model->getItemExtra($k2Item->extra_fields);
+			}
+
+			$state = 0;
+			if ($k2Item->published && !$k2Item->trashed)
+			{
+				$state = 1;
+			}
+			elseif ($k2Item->trashed)
+			{
+				$state = -2;
+			}
+
+			$list_item_layout = '';
+			if (in_array($k2Item->catid, $rabotaemCategories))
+			{
+				$list_item_layout = 'text';
+			}
+			if (in_array($k2Item->catid, $herakCategories))
+			{
+				$list_item_layout = 'image';
+			}
+
+			$comments_title = (!empty($k2Item->extraFields->comments) && !empty($k2Item->extraFields->comments->value))
+				? $k2Item->extraFields->comments->value : '';
+
+			$data                 = array();
+			$data['id']           = 0;
+			$data['title']        = $k2Item->title;
+			$data['region']       = $k2Item->region;
+			$data['state']        = $state;
+			$data['access']       = $k2Item->access;
+			$data['in_work']      = 0;
+			$data['attribs']      = array(
+				'item_layout'      => '',
+				'list_item_layout' => $list_item_layout,
+				'comments_title'   => $comments_title,
+				'related_title'    => '',
+			);
+			$data['created']      = $k2Item->created;
+			$data['publish_up']   = $k2Item->publish_up;
+			$data['publish_down'] = $k2Item->publish_down;
+			$data['modified']     = $k2Item->modified;
+			$data['created_by']   = $k2Item->created_by;
+			$data['hits']         = $k2Item->hits;
+			$data['id']           = '';
+			$data['metakey']      = '';
+			$data['metadesc']     = '';
+			$data['metadata']     = array(
+				'robots'     => '',
+				'author'     => '',
+				'rights'     => '',
+				'xreference' => '',
+			);
+			$data['tags']         = '';
+
+
+			$data['imagefolder'] = $imageFolderHelper->createTemporaryFolder();
+			$data['header']      = '';
+			$data['introimage']  = '';
+			if (JFile::exists($k2Item->image))
+			{
+				JFile::copy($k2Item->image, JPATH_ROOT . '/' . $data['imagefolder'] . '/intro.jpg');
+				$data['introimage'] = $data['imagefolder'] . '/intro.jpg';
+			}
+
+			$fulltext = $k2Item->fulltext;
+			preg_match_all('/<img(.*)src="([^ "]*)"/i', $fulltext, $matches);
+			$fulltext_images = (!empty($matches[2])) ? array_unique($matches[2]) : array();
+			foreach ($fulltext_images as $old)
+			{
+				$new      = '{imageFolder}/' . JFile::getName(JPATH_ROOT . '/' . rtrim($old, '/'));
+				$fulltext = str_replace($old, $new, $fulltext);
+			}
+			$data['fulltext'] = str_replace(array('{hits}', '{commentsCount}', '{comments}', '{link}', '{date}'),
+				'', $fulltext);
+
+			$introtext = $k2Item->introtext;
+			preg_match_all('/<img(.*)src="([^ "]*)"/i', $introtext, $matches);
+			$introtext_images = (!empty($matches[2])) ? array_unique($matches[2]) : array();
+			foreach ($introtext_images as $old)
+			{
+				$new       = '{imageFolder}/' . JFile::getName(JPATH_ROOT . '/' . rtrim($old, '/'));
+				$introtext = str_replace($old, $new, $introtext);
+			}
+			$data['introtext'] = str_replace(array('{hits}', '{commentsCount}', '{comments}', '{link}', '{date}'),
+				'', $introtext);
+
+			$old_images = array_unique(array_merge($fulltext_images, $introtext_images));
+
+			$data['images'] = array();
+
+			if (!empty($old_images))
+			{
+				$i = 1;
+				foreach ($old_images as $old)
+				{
+
+					$delete   = true;
+					$fullpath = JPATH_ROOT . '/' . rtrim($old, '/');
+					if (!JFile::exists($fullpath))
+					{
+						$delete   = false;
+						$fullpath = str_replace('images/', 'images-old/', $fullpath);
+					}
+					$key  = 'image_' . $i;
+					$file = JFile::getName($fullpath);
+					$src  = $data['imagefolder'] . '/content/' . $file;
+
+					if (!JFolder::exists(JPATH_ROOT . '/' . $data['imagefolder'] . '/content'))
+					{
+						JFolder::create(JPATH_ROOT . '/' . $data['imagefolder'] . '/content');
+					}
+
+					if (JFile::exists($fullpath) && JFile::move($fullpath, JPATH_ROOT . '/' . $src))
+					{
+						$data['images'][$key] = array(
+							'file' => $file,
+							'src'  => $src,
+							'text' => ''
+						);
+
+						if ($delete)
+						{
+							$dirname = dirname($fullpath);
+
+							$files = JFolder::files($dirname, '', true, true, 'index.html');
+							if (empty($files))
+							{
+								JFolder::delete($dirname);
+							}
+						}
+
+						$i++;
+					}
+				}
+			}
+
+			$newInfoID = $infoModel->save($data);
+			$oldInfoID = $k2Item->id;
+
+			$oldLink = str_replace(Uri::base(true), trim(Uri::root(true), '/'),
+				$siteRouter->build(K2HelperRoute::getItemRoute($oldInfoID, $k2Item->catid))->toString());
+			$oldLink = str_replace('info-old', 'info', $oldLink);
+
+			// Set Redirect
+			$newlink = str_replace(Uri::base(true), trim(Uri::root(true), '/'),
+				$siteRouter->build(InfoHelperRoute::getItemRoute($newInfoID))->toString());
+			$this->addRedirect($oldLink, $newlink);
+		}
+		$count = count($k2Items);
+
 		return $count;
 	}
 
