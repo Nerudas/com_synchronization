@@ -173,7 +173,7 @@ class SynchronizationModelInfo extends AdminModel
 			->from($db->quoteName('#__k2_items'))
 			->where($db->quoteName('catid') . ' IN (' . implode(',', $categories) . ')')
 			// ->where($db->quoteName('id') . ' IN (' . implode(',', $testIDS) . ')')
-			->order('created ASC');
+			->order('id ASC');
 		if ($data['total'])
 		{
 			$db->setQuery($query);
