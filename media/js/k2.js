@@ -52,6 +52,7 @@
 							success.show();
 						}
 						else {
+							error.show();
 							console.error(task + '\n' + response.message);
 						}
 					},

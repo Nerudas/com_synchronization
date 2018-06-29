@@ -68,8 +68,15 @@ $doc->addScriptDeclaration('
 				<i class="icon-ok success text-success" style="display: none;"></i>
 			</li>
 
-			<li data-task="deleteK2">
-				<strong><?php echo Text::_('COM_SYNCHRONIZATION_K2_TASKS_DELETE_K2'); ?></strong>
+			<li data-task="deleteExtensions">
+				<strong><?php echo Text::_('COM_SYNCHRONIZATION_K2_TASKS_DELETE_EXTENSIONS'); ?></strong>
+				<i class="icon-loop loading" style="display: none;"></i>
+				<i class="icon-cancel-2 error text-error" style="display: none;"></i>
+				<i class="icon-ok success text-success" style="display: none;"></i>
+			</li>
+
+			<li data-task="deleteDB">
+				<strong><?php echo Text::_('COM_SYNCHRONIZATION_K2_TASKS_DELETE_DB'); ?></strong>
 				<i class="icon-loop loading" style="display: none;"></i>
 				<i class="icon-cancel-2 error text-error" style="display: none;"></i>
 				<i class="icon-ok success text-success" style="display: none;"></i>

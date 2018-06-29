@@ -14,7 +14,6 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Uri\Uri;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -176,6 +175,9 @@ class SynchronizationModelK2 extends AdminModel
 		$redirects[$siteRouter->build('index.php?Itemid=' . 2047)->toString()] =
 			$siteRouter->build(PrototypeHelperRoute::getMapRoute(9))->toString();
 
+		// Doska
+		$redirects['/map/doska.html'] = '/karta/doska.html';
+
 		// Map
 		$redirects[$siteRouter->build('index.php?Itemid=' . 637)->toString()] =
 			$siteRouter->build(PrototypeHelperRoute::getMapRoute(2))->toString();
@@ -208,7 +210,6 @@ class SynchronizationModelK2 extends AdminModel
 
 		$redirects[$siteRouter->build('index.php?Itemid=' . 1622)->toString() . '/*'] =
 			$siteRouter->build(PrototypeHelperRoute::getMapRoute(3))->toString();
-
 
 		foreach ($redirects as $old => $new)
 		{
@@ -265,5 +266,62 @@ class SynchronizationModelK2 extends AdminModel
 
 		return (!empty($id)) ? $db->updateObject('#__sefwizard_redirects', $redirect, 'id') :
 			$db->insertObject('#__sefwizard_redirects', $redirect);
+	}
+
+
+	/**
+	 * Method to delete extension
+	 *
+	 * @param array $pks
+	 *
+	 * @return bool;
+	 */
+	public function deleteExtensions($pks = array())
+	{
+		$error = false;
+
+		BaseDatabaseModel::addIncludePath(JPATH_ROOT . '/administrator/components/com_installer/models');
+		$model = BaseDatabaseModel::getInstance('Manage', 'InstallerModel', array('ignore_request' => true));
+		$model->remove($pks);
+
+		if (!empty($model->getErrors()))
+		{
+			$error = true;
+			foreach ($model->getErrors() as $error)
+			{
+				$this->setError($error);
+			}
+		}
+
+		return !$error;
+	}
+
+
+	/**
+	 * Method to delete extension
+	 *
+	 * @return bool;
+	 */
+	public function deleteDB()
+	{
+		$error = false;
+
+		$db = Factory::getDbo();
+
+		foreach (array('#__k2_log', '#__k2_related_items') as $table)
+		{
+			$db->setQuery('DROP TABLE ' . $db->quoteName($table));
+			try
+			{
+				$db->execute();
+			}
+			catch (JDataBaseExceptionExecuting $e)
+			{
+				$error = true;
+				$this->setError($e->getMessage());
+			}
+		}
+
+		return !$error;
 	}
 }
