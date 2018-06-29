@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Synchronization Component
- * @version    1.0.2
+ * @version    1.0.3
  * @author     Nerudas  - nerudas.ru
  * @copyright  Copyright (c) 2013 - 2018 Nerudas. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
@@ -76,7 +76,7 @@ class SynchronizationModelPlaton extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$form = $this->loadForm('com_synchronization.info', 'info',
+		$form = $this->loadForm('com_synchronization.platon', 'platon',
 			array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form))
 		{
@@ -97,12 +97,12 @@ class SynchronizationModelPlaton extends AdminModel
 	protected function loadFormData()
 	{
 		$app  = JFactory::getApplication();
-		$data = $app->getUserState('com_synchronization.info.edit.document.data', array());
+		$data = $app->getUserState('com_synchronization.platon.edit.document.data', array());
 		if (empty($data))
 		{
 			$data = $this->getItem();
 		}
-		$this->preprocessData('com_synchronization.info', $data);
+		$this->preprocessData('com_synchronization.platon', $data);
 
 		return $data;
 	}
@@ -160,11 +160,7 @@ class SynchronizationModelPlaton extends AdminModel
 	{
 		$items = array();
 
-		$infoCategories     = NerudasK2Helper:: getCategoryTree(274);
-		$rabotaemCategories = array(40);
-		$herakCategories    = array(315);
-		$categories         = array_merge($infoCategories, $rabotaemCategories, $herakCategories);
-		// $testIDS            = array(159255, 159254, 159253, 159246, 156234, 156117); // 4 info + 1 herak + 1 rabotaem
+		exit();
 
 		$select = ($data['total']) ? 'COUNT(*)' : '*';
 		$db     = Factory::getDbo();
