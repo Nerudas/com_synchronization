@@ -85,6 +85,35 @@ class SynchronizationControllerK2 extends FormController
 	}
 
 	/**
+	 * Delete modules function
+	 */
+	public function deleteModules()
+	{
+		$model = $this->getModel();
+
+		$errors = array();
+		if (!$model->deleteModules(array(
+			352,
+			286,
+			284,
+			226,
+			281,
+			275,
+			240,
+			288,
+			282,
+			246,
+			241,
+			355,
+		)))
+		{
+			$errors = $model->getErrors();
+		}
+
+		return $this->setResponse($errors);
+	}
+
+	/**
 	 * Method to send json response
 	 *
 	 * @param array $errors Errors text

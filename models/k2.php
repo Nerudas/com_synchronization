@@ -296,6 +296,45 @@ class SynchronizationModelK2 extends AdminModel
 		return !$error;
 	}
 
+	/**
+	 * Method to delete extension
+	 *
+	 * @param array $pks
+	 *
+	 * @return bool;
+	 */
+	public function deleteModules($pks = array())
+	{
+		$error = false;
+
+		$db = Factory::getDbo();
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = -2')
+			->where('id IN (' . implode(',', $pks) . ')');
+
+		$db->setQuery($query)
+			->execute();
+
+
+		BaseDatabaseModel::addIncludePath(JPATH_ROOT . '/administrator/components/com_modules/models');
+		$model = BaseDatabaseModel::getInstance('Module', 'ModulesModel', array('ignore_request' => true));
+
+		$model->delete($pks);
+
+		if (!empty($model->getErrors()))
+		{
+			$error = true;
+			foreach ($model->getErrors() as $error)
+			{
+				$this->setError($error);
+			}
+		}
+
+		return !$error;
+	}
+
 
 	/**
 	 * Method to delete extension
