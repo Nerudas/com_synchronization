@@ -22,7 +22,7 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('formbehavior.chosen', 'select');
 HTMLHelper::_('stylesheet', 'media/com_synchronization/css/default.min.css', array('version' => 'auto'));
-HTMLHelper::_('script', 'media/com_synchronization/js/platon.min.js', array('version' => 'auto'));
+HTMLHelper::_('script', 'media/com_synchronization/js/k2.min.js', array('version' => 'auto'));
 
 $doc->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
@@ -59,10 +59,23 @@ $doc->addScriptDeclaration('
 				<div class="bar"></div>
 			</div>
 		</div>
-		<h2><?php echo Text::_('COM_SYNCHRONIZATION_PARAMS'); ?></h2>
-		<div class="form-horizontal">
-			<?php echo $this->form->renderFieldset('params'); ?>
-		</div>
+		<h2><?php echo Text::_('COM_SYNCHRONIZATION_K2_TASKS'); ?></h2>
+		<ul data-k2-tasks>
+			<li data-task="createRedirects">
+				<strong><?php echo Text::_('COM_SYNCHRONIZATION_K2_TASKS_CREATE_REDIRECTS'); ?></strong>
+				<i class="icon-loop loading" style="display: none;"></i>
+				<i class="icon-cancel-2 error text-error" style="display: none;"></i>
+				<i class="icon-ok success text-success" style="display: none;"></i>
+			</li>
+
+			<li data-task="deleteK2">
+				<strong><?php echo Text::_('COM_SYNCHRONIZATION_K2_TASKS_DELETE_K2'); ?></strong>
+				<i class="icon-loop loading" style="display: none;"></i>
+				<i class="icon-cancel-2 error text-error" style="display: none;"></i>
+				<i class="icon-ok success text-success" style="display: none;"></i>
+			</li>
+		</ul>
+
 	</div>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="return" value="<?php echo $app->input->getCmd('return'); ?>"/>

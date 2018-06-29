@@ -23,12 +23,12 @@ HTMLHelper::_('stylesheet', 'media/com_synchronization/css/home.min.css', array(
 <div class="row-fluid">
 	<div class="row-fluid icons-block">
 		<div class="span2">
-			<a href="/administrator/index.php?option=com_synchronization&view=platon">
+			<a href="/administrator/index.php?option=com_synchronization&view=k2">
 				<div class="img">
-					<span class="icon-list large-icon"></span>
+					<span class="icon-warning-2  large-icon"></span>
 				</div>
 				<div class="title">
-					<?php echo Text::_('COM_SYNCHRONIZATION_PLATON'); ?>
+					<?php echo Text::_('COM_SYNCHRONIZATION_K2'); ?>
 				</div>
 			</a>
 		</div>

@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
 
-class SynchronizationViewPlaton extends HtmlView
+class SynchronizationViewK2 extends HtmlView
 {
 	/**
 	 * The JForm object
@@ -71,17 +71,11 @@ class SynchronizationViewPlaton extends HtmlView
 		$this->state = $this->get('State');
 
 		// Title
-		JToolBarHelper::title(
-			Text::_('COM_SYNCHRONIZATION') . ': ' . JText::_('COM_SYNCHRONIZATION_PLATON'),
-			'users'
-		);
+		JToolBarHelper::title(Text::_('COM_SYNCHRONIZATION_K2'), 'warning-2');
 
 		// ToolBar
-		JToolbarHelper::custom('platon.apply', 'cog', '',
-			'COM_SYNCHRONIZATION_ACTIONS_SAVE', false);
-
-		JToolbarHelper::custom('platon.parse', 'loop', '',
-			'COM_SYNCHRONIZATION_PLATON_PARSE', false);
+		JToolbarHelper::custom('k2.run', 'play', '',
+			'COM_SYNCHRONIZATION_K2_RUN', false);
 
 		if (Factory::getUser()->authorise('core.admin', 'com_synchronization'))
 		{
