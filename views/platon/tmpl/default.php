@@ -22,7 +22,7 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('formbehavior.chosen', 'select');
 HTMLHelper::_('stylesheet', 'media/com_synchronization/css/default.min.css', array('version' => 'auto'));
-HTMLHelper::_('script', 'media/com_synchronization/js/info.min.js', array('version' => 'auto'));
+HTMLHelper::_('script', 'media/com_synchronization/js/platon.min.js', array('version' => 'auto'));
 
 $doc->addScriptDeclaration('
 	Joomla.submitbutton = function(task)

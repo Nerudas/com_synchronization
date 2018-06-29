@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
 
-class SynchronizationViewInfo extends HtmlView
+class SynchronizationViewPlaton extends HtmlView
 {
 	/**
 	 * The JForm object
@@ -72,16 +72,16 @@ class SynchronizationViewInfo extends HtmlView
 
 		// Title
 		JToolBarHelper::title(
-			Text::_('COM_SYNCHRONIZATION') . ': ' . JText::_('COM_SYNCHRONIZATION_INFO'),
+			Text::_('COM_SYNCHRONIZATION') . ': ' . JText::_('COM_SYNCHRONIZATION_PLATON'),
 			'users'
 		);
 
 		// ToolBar
-		JToolbarHelper::custom('info.apply', 'cog', '',
+		JToolbarHelper::custom('platon.apply', 'cog', '',
 			'COM_SYNCHRONIZATION_ACTIONS_SAVE', false);
 
-		JToolbarHelper::custom('info.parse', 'loop', '',
-			'COM_SYNCHRONIZATION_INFO_PARSE', false);
+		JToolbarHelper::custom('platon.parse', 'loop', '',
+			'COM_SYNCHRONIZATION_PLATON_PARSE', false);
 
 		if (Factory::getUser()->authorise('core.admin', 'com_synchronization'))
 		{
@@ -89,7 +89,7 @@ class SynchronizationViewInfo extends HtmlView
 		}
 
 		// Sidebar
-		SynchronizationHelper::addSubmenu('info');
+		SynchronizationHelper::addSubmenu('platon');
 		$this->sidebar = JHtmlSidebar::render();
 
 		// Check for errors.

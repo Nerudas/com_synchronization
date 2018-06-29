@@ -9,9 +9,9 @@
 
 (function ($) {
 	$(document).ready(function () {
-		$('[onclick*="info.parse"]').attr('id', 'infoParse').removeAttr('onclick');
+		$('[onclick*="platon.parse"]').attr('id', 'platonParse').removeAttr('onclick');
 
-		$('#infoParse').on('click', function () {
+		$('#platonParse').on('click', function () {
 			parseProfilesItems();
 		});
 	});
@@ -34,7 +34,7 @@
 			var name = field.name;
 			ajaxData[name] = field.value;
 		});
-		ajaxData['task'] = 'info.parse';
+		ajaxData['task'] = 'platon.parse';
 		ajaxData['first'] = 'true';
 
 		// Prepare

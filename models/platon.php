@@ -21,7 +21,7 @@ use Joomla\CMS\Uri\Uri;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
-class SynchronizationModelInfo extends AdminModel
+class SynchronizationModelPlaton extends AdminModel
 {
 	/**
 	 * Method to get a single record.
