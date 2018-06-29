@@ -160,6 +160,28 @@ class SynchronizationControllerK2 extends FormController
 		return $this->setResponse($errors);
 	}
 
+	/**
+	 * Delete Menus function
+	 */
+	public function accessMenuItems()
+	{
+		$model = $this->getModel();
+
+		$errors = array();
+		if (!$model->accessMenuItems(array(
+			2266,
+			2267,
+			2265,
+			2268,
+			2271
+		)))
+		{
+			$errors = $model->getErrors();
+		}
+
+		return $this->setResponse($errors);
+	}
+
 
 	/**
 	 * Method to send json response

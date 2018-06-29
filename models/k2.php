@@ -411,7 +411,7 @@ class SynchronizationModelK2 extends AdminModel
 	}
 
 	/**
-	 * Method to delete modules
+	 * Method to delete menu items
 	 *
 	 * @param array $pks
 	 *
@@ -454,6 +454,39 @@ class SynchronizationModelK2 extends AdminModel
 				}
 			}
 		}
+
+		return !$error;
+	}
+
+
+	/**
+	 * Method to change access in menu items
+	 *
+	 * @param array $pks
+	 *
+	 * @return bool;
+	 */
+	public function accessMenuItems($pks = array())
+	{
+		$error = false;
+
+		try
+		{
+
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__menu'))
+				->set($db->quoteName('access') . ' = 1')
+				->where('id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query)
+				->execute();
+		}
+		catch (Exception $e)
+		{
+			$error = true;
+			$this->setError($e);
+		}
+
 
 		return !$error;
 	}
