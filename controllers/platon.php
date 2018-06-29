@@ -14,7 +14,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Response\JsonResponse;
 
-class SynchronizationControllerInfo extends FormController
+class SynchronizationControllerPlaton extends FormController
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -22,7 +22,7 @@ class SynchronizationControllerInfo extends FormController
 	 * @var    string
 	 * @since  1.0.0
 	 */
-	protected $text_prefix = 'COM_SYNCHRONIZATION_INFO';
+	protected $text_prefix = 'COM_SYNCHRONIZATION_PLATON';
 
 	/**
 	 * Method to parse a record.
