@@ -180,14 +180,14 @@ class SynchronizationModelK2 extends AdminModel
 
 		// Map
 		$redirects[$siteRouter->build('index.php?Itemid=' . 637)->toString()] =
-			$siteRouter->build(PrototypeHelperRoute::getMapRoute(2))->toString();
+			$siteRouter->build(PrototypeHelperRoute::getMapRoute(1))->toString();
 
 		$redirects[$siteRouter->build('index.php?Itemid=' . 637)->toString() . '/*'] =
-			$siteRouter->build(PrototypeHelperRoute::getMapRoute(2))->toString();
+			$siteRouter->build(PrototypeHelperRoute::getMapRoute(1))->toString();
 
 		// Remzona
 		$redirects[$siteRouter->build('index.php?Itemid=' . 1628)->toString()] =
-			$siteRouter->build(PrototypeHelperRoute::getMapRoute(2))->toString();
+			$siteRouter->build(PrototypeHelperRoute::getMapRoute(1))->toString();
 
 
 		// Pesok
