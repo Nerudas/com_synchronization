@@ -299,6 +299,34 @@ class SynchronizationModelK2 extends AdminModel
 	/**
 	 * Method to delete extension
 	 *
+	 * @return bool;
+	 */
+	public function deleteDB()
+	{
+		$error = false;
+
+		$db = Factory::getDbo();
+
+		foreach (array('#__k2_log', '#__k2_related_items', '#__maps') as $table)
+		{
+			$db->setQuery('DROP TABLE IF EXISTS ' . $db->quoteName($table));
+			try
+			{
+				$db->execute();
+			}
+			catch (JDataBaseExceptionExecuting $e)
+			{
+				$error = true;
+				$this->setError($e->getMessage());
+			}
+		}
+
+		return !$error;
+	}
+
+	/**
+	 * Method to delete modules
+	 *
 	 * @param array $pks
 	 *
 	 * @return bool;
@@ -310,54 +338,120 @@ class SynchronizationModelK2 extends AdminModel
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
-			->update($db->quoteName('#__modules'))
-			->set($db->quoteName('published') . ' = -2')
+			->select('id')
+			->from('#__modules')
 			->where('id IN (' . implode(',', $pks) . ')');
+		$db->setQuery($query);
 
-		$db->setQuery($query)
-			->execute();
-
-
-		BaseDatabaseModel::addIncludePath(JPATH_ROOT . '/administrator/components/com_modules/models');
-		$model = BaseDatabaseModel::getInstance('Module', 'ModulesModel', array('ignore_request' => true));
-
-		$model->delete($pks);
-
-		if (!empty($model->getErrors()))
+		$pks = $db->loadColumn();
+		if (!empty($pks))
 		{
-			$error = true;
-			foreach ($model->getErrors() as $error)
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__modules'))
+				->set($db->quoteName('published') . ' = -2')
+				->where('id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query)
+				->execute();
+
+			BaseDatabaseModel::addIncludePath(JPATH_ROOT . '/administrator/components/com_modules/models');
+			$model = BaseDatabaseModel::getInstance('Module', 'ModulesModel', array('ignore_request' => true));
+
+			$model->delete($pks);
+
+			if (!empty($model->getErrors()))
 			{
-				$this->setError($error);
+				$error = true;
+				foreach ($model->getErrors() as $error)
+				{
+					$this->setError($error);
+				}
 			}
 		}
 
 		return !$error;
 	}
 
-
 	/**
-	 * Method to delete extension
+	 * Method to delete modules
+	 *
+	 * @param array $pks
 	 *
 	 * @return bool;
 	 */
-	public function deleteDB()
+	public function deleteMenus($pks = array())
 	{
 		$error = false;
 
 		$db = Factory::getDbo();
 
-		foreach (array('#__k2_log', '#__k2_related_items') as $table)
+		$query = $db->getQuery(true)
+			->select('id')
+			->from('#__menu_types')
+			->where('id IN (' . implode(',', $pks) . ')');
+		$db->setQuery($query);
+
+		$pks = $db->loadColumn();
+		if (!empty($pks))
 		{
-			$db->setQuery('DROP TABLE ' . $db->quoteName($table));
-			try
-			{
-				$db->execute();
-			}
-			catch (JDataBaseExceptionExecuting $e)
+			BaseDatabaseModel::addIncludePath(JPATH_ROOT . '/administrator/components/com_menus/models');
+			$model = BaseDatabaseModel::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
+
+			$model->delete($pks);
+			if (!empty($model->getErrors()))
 			{
 				$error = true;
-				$this->setError($e->getMessage());
+				foreach ($model->getErrors() as $error)
+				{
+					$this->setError($error);
+				}
+			}
+		}
+
+		return !$error;
+	}
+
+	/**
+	 * Method to delete modules
+	 *
+	 * @param array $pks
+	 *
+	 * @return bool;
+	 */
+	public function deleteMenuItems($pks = array())
+	{
+		$error = false;
+
+		$db = Factory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('id')
+			->from('#__menu')
+			->where('id IN (' . implode(',', $pks) . ')');
+		$db->setQuery($query);
+
+		$pks = $db->loadColumn();
+		if (!empty($pks))
+		{
+
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__menu'))
+				->set($db->quoteName('published') . ' = -2')
+				->where('id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query)
+				->execute();
+
+			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables');
+
+			BaseDatabaseModel::addIncludePath(JPATH_ROOT . '/administrator/components/com_menus/models');
+			$model = BaseDatabaseModel::getInstance('Item', 'MenusModel', array('ignore_request' => true));
+
+			if (!empty($model->getErrors()))
+			{
+				$error = true;
+				foreach ($model->getErrors() as $error)
+				{
+					$this->setError($error);
+				}
 			}
 		}
 

@@ -88,6 +88,20 @@ $doc->addScriptDeclaration('
 				<i class="icon-cancel-2 error text-error" style="display: none;"></i>
 				<i class="icon-ok success text-success" style="display: none;"></i>
 			</li>
+
+			<li data-task="deleteMenus">
+				<strong><?php echo Text::_('COM_SYNCHRONIZATION_K2_TASKS_DELETE_MENUS'); ?></strong>
+				<i class="icon-loop loading" style="display: none;"></i>
+				<i class="icon-cancel-2 error text-error" style="display: none;"></i>
+				<i class="icon-ok success text-success" style="display: none;"></i>
+			</li>
+
+			<li data-task="deleteMenuItems">
+				<strong><?php echo Text::_('COM_SYNCHRONIZATION_K2_TASKS_DELETE_MENU_ITEMS'); ?></strong>
+				<i class="icon-loop loading" style="display: none;"></i>
+				<i class="icon-cancel-2 error text-error" style="display: none;"></i>
+				<i class="icon-ok success text-success" style="display: none;"></i>
+			</li>
 		</ul>
 
 	</div>
