@@ -2,9 +2,6 @@
 <form>
 	<fields name="params">
 		<fieldset name="params">
-			<field name="step" type="number"
-				   label="COM_SYNCHRONIZATION_STEP"
-				   default="10"/>
 		</fieldset>
 	</fields>
 </form>
