@@ -160,12 +160,14 @@ class SynchronizationModelK2 extends AdminModel
 
 		$redirects = array();
 
-
 		// vesi
 		$redirects[$siteRouter->build('index.php?Itemid=' . 2045)->toString()] =
 			$siteRouter->build(PrototypeHelperRoute::getMapRoute(8))->toString();
 
 		$redirects[$siteRouter->build('index.php?Itemid=' . 2044)->toString()] =
+			$siteRouter->build(PrototypeHelperRoute::getMapRoute(8))->toString();
+
+		$redirects[$siteRouter->build('index.php?Itemid=' . 2044)->toString() . '/*'] =
 			$siteRouter->build(PrototypeHelperRoute::getMapRoute(8))->toString();
 
 		// Platon
@@ -175,20 +177,8 @@ class SynchronizationModelK2 extends AdminModel
 		$redirects[$siteRouter->build('index.php?Itemid=' . 2047)->toString()] =
 			$siteRouter->build(PrototypeHelperRoute::getMapRoute(9))->toString();
 
-		// Doska
-		$redirects['/map/doska.html'] = '/karta/doska.html';
-
-		// Map
-		$redirects[$siteRouter->build('index.php?Itemid=' . 637)->toString()] =
-			$siteRouter->build(PrototypeHelperRoute::getMapRoute(1))->toString();
-
-		$redirects[$siteRouter->build('index.php?Itemid=' . 637)->toString() . '/*'] =
-			$siteRouter->build(PrototypeHelperRoute::getMapRoute(1))->toString();
-
-		// Remzona
-		$redirects[$siteRouter->build('index.php?Itemid=' . 1628)->toString()] =
-			$siteRouter->build(PrototypeHelperRoute::getMapRoute(1))->toString();
-
+		$redirects[$siteRouter->build('index.php?Itemid=' . 2047)->toString() . '/*'] =
+			$siteRouter->build(PrototypeHelperRoute::getMapRoute(9))->toString();
 
 		// Pesok
 		$redirects[$siteRouter->build('index.php?Itemid=' . 1075)->toString()] =
@@ -210,6 +200,19 @@ class SynchronizationModelK2 extends AdminModel
 
 		$redirects[$siteRouter->build('index.php?Itemid=' . 1622)->toString() . '/*'] =
 			$siteRouter->build(PrototypeHelperRoute::getMapRoute(3))->toString();
+
+		// Remzona
+		$redirects[$siteRouter->build('index.php?Itemid=' . 1628)->toString()]        =
+			$siteRouter->build('index.php?Itemid=' . 2260)->toString();
+		$redirects[$siteRouter->build('index.php?Itemid=' . 1628)->toString() . '/*'] =
+			$siteRouter->build('index.php?Itemid=' . 2260)->toString();
+
+		// Map
+		$redirects[$siteRouter->build('index.php?Itemid=' . 637)->toString()] =
+			$siteRouter->build('index.php?Itemid=' . 2260)->toString();
+
+		$redirects[$siteRouter->build('index.php?Itemid=' . 637)->toString() . '/*'] =
+			$siteRouter->build('index.php?Itemid=' . 2260)->toString();
 
 		foreach ($redirects as $old => $new)
 		{
