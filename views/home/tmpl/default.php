@@ -22,7 +22,16 @@ HTMLHelper::_('stylesheet', 'media/com_synchronization/css/home.min.css', array(
 
 <div class="row-fluid">
 	<div class="row-fluid icons-block">
-
+		<div class="span2">
+			<a href="/administrator/index.php?option=com_synchronization&view=geolocations">
+				<div class="img">
+					<span class="icon-warning-2  large-icon"></span>
+				</div>
+				<div class="title">
+					<?php echo Text::_('COM_SYNCHRONIZATION_GEOLOCATIONS'); ?>
+				</div>
+			</a>
+		</div>
 		<div class="span2">
 			<a href="/administrator/index.php?option=com_config&view=component&component=com_synchronization&return=<?php echo $return; ?>">
 				<div class="img">
