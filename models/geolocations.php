@@ -33,7 +33,7 @@ class SynchronizationModelGeolocations extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
-		$pk    = 'companies';
+		$pk    = 'geolocations';
 		$table = $this->getTable();
 
 		if (!empty($pk))
@@ -157,84 +157,85 @@ class SynchronizationModelGeolocations extends AdminModel
 
 	public function parse($data)
 	{
-		$items = array();
-		$lines = explode(PHP_EOL, JFile::read(__DIR__ . '/files/cidr_optim.txt'));
+		$select = ($data['total']) ? 'COUNT(*)' : '*';
+		$db     = Factory::getDbo();
+		$query  = $db->getQuery(true)
+			->select($select)
+			->from($db->quoteName('ipgeobase'));
+
 		if ($data['total'])
 		{
-			$count = count($lines);
+			$db->setQuery($query);
+			$count = $db->loadResult();
 
 			return $count;
 		}
 
-		$cities    = array();
-		$cities[0] = array(
-			'city'      => '-',
-			'region'    => '-',
-			'district'  => '-',
-			'latitude'  => '-',
-			'longitude' => '-',
-		);
-		foreach (explode(PHP_EOL, JFile::read(__DIR__ . '/files/cities.txt')) as $line)
+		$db->setQuery($query, $data['offset'], $data['limit']);
+		$ipgeobase = $db->loadObjectList();
+
+
+		$db   = Factory::getDbo();
+		$date = Factory::getDate()->toSql();
+
+		foreach ($ipgeobase as $data)
 		{
-			$record = explode("\t", trim($line));
-			if (is_array($record) && !empty($record[1]))
-			{
-				$cities[$record[0]] = array(
-					'city'      => $record[1],
-					'region'    => $record[2],
-					'district'  => $record[3],
-					'latitude'  => $record[4],
-					'longitude' => $record[5],
-				);
-			}
-		};
+			$data  = ArrayHelper::fromObject($data);
+			$query = $db->getQuery(true)
+				->select('COUNT(*)')
+				->from('#__location_geolocations');
 
-
-		$offset = $data['offset'];
-		$limit  = $offset + $data['limit'];
-
-		$db     = Factory::getDbo();
-		$result = array();
-		foreach ($lines as $i => $line)
-		{
-			if ($i < $offset)
+			foreach ($data as $col => $val)
 			{
-				continue;
-			}
-			if ($i == $limit)
-			{
-				break;
+				$query->where($db->quoteName($col) . ' = ' . $db->quote($val));
 			}
 
-			$record   = explode("\t", trim($line));
-			$result[] = $record;
-
-			if (is_array($record) && !empty($record[4]))
+			$db->setQuery($query);
+			$exist = !empty($db->loadResult());
+			if (!$exist)
 			{
-				$city            = ($record[4] != ' - ' && isset($cities[$record[4]])) ? $cities[$record[4]] : $cities[0];
-				$city['country'] = $record[3];
-
 				$query = $db->getQuery(true)
-					->select('COUNT(*)')
-					->from('ipgeobase');
+					->select('*')
+					->from('#__geolocations');
 
-				foreach ($city as $col => $val)
+				foreach ($data as $col => $val)
 				{
+					$val = ($val == '-') ? '0' : $val;
 					$query->where($db->quoteName($col) . ' = ' . $db->quote($val));
 				}
 
-				$db->setQuery($query);
-				$exist = !empty($db->loadResult());
-
-				if (!$exist)
+				$state = 0;
+				if (!empty($old))
 				{
-					$city = (object) $city;
-					$db->insertObject('ipgeobase', $city);
+					$state = $old->published;
 				}
+
+				$region_id = -1;
+				if (!empty($old))
+				{
+					$region_id = $old->region_id;
+				}
+
+				if ($data['country'] != 'RU')
+				{
+					$state     = 1;
+					$region_id = 110;
+				}
+
+
+				$db->setQuery($query);
+				$old               = $db->loadObject();
+				$record            = (object) $data;
+				$record->created   = $date;
+				$record->state     = $state;
+				$record->region_id = $region_id;
+
+				$db->insertObject('#__location_geolocations', $record);
 			}
 
 		}
-		$count = count($result);
+
+		$count = count($ipgeobase);
 
 		return $count;
 	}
