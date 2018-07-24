@@ -210,6 +210,9 @@ class SynchronizationModelGeolocations extends AdminModel
 					$state = $old->published;
 				}
 
+				$db->setQuery($query);
+				$old = $db->loadObject();
+
 				$region_id = -1;
 				if (!empty($old))
 				{
@@ -222,9 +225,6 @@ class SynchronizationModelGeolocations extends AdminModel
 					$region_id = 110;
 				}
 
-
-				$db->setQuery($query);
-				$old               = $db->loadObject();
 				$record            = (object) $data;
 				$record->created   = $date;
 				$record->state     = $state;
@@ -232,7 +232,6 @@ class SynchronizationModelGeolocations extends AdminModel
 
 				$db->insertObject('#__location_geolocations', $record);
 			}
-
 		}
 
 		$count = count($ipgeobase);
