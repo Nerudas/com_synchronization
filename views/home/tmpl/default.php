@@ -33,6 +33,16 @@ HTMLHelper::_('stylesheet', 'media/com_synchronization/css/home.min.css', array(
 			</a>
 		</div>
 		<div class="span2">
+			<a href="/administrator/index.php?option=com_synchronization&view=regions">
+				<div class="img">
+					<span class="icon-warning-2  large-icon"></span>
+				</div>
+				<div class="title">
+					<?php echo Text::_('COM_SYNCHRONIZATION_REGIONS'); ?>
+				</div>
+			</a>
+		</div>
+		<div class="span2">
 			<a href="/administrator/index.php?option=com_config&view=component&component=com_synchronization&return=<?php echo $return; ?>">
 				<div class="img">
 					<span class="icon-options large-icon"></span>
