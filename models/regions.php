@@ -221,14 +221,12 @@ class SynchronizationModelRegions extends AdminModel
 			$data['longitude'] = $oldItem->longitude;
 			$data['zoom']      = $oldItem->zoom;
 
-
 			$imagefolder = $imageFolderHelper->getItemImageFolder($oldItem->id);
 			if (JFile::exists(JPATH_ROOT . '/images/old_regions/' . $oldItem->id . '.png'))
 			{
 				$data['icon'] = $imagefolder . '/icon.png';
 				JFile::move(JPATH_ROOT . '/images/old_regions/' . $oldItem->id . '.png', JPATH_ROOT . '/' . $data['icon']);
 			}
-
 
 			$regionModel->save($data);
 		}
