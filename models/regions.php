@@ -236,7 +236,6 @@ class SynchronizationModelRegions extends AdminModel
 		if ($count < $limit)
 		{
 			$regionModel->rebuild();
-			JFolder::delete(JPATH_ROOT . '/images/old_regions');
 		}
 
 		return $count;
