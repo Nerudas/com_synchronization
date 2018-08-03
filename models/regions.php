@@ -213,6 +213,8 @@ class SynchronizationModelRegions extends AdminModel
 			$data['abbreviation'] = '';
 			$data['alias']        = '';
 			$data['parent_id']    = ($oldItem->parent == 0) ? -1 : (int) $oldItem->parent;
+			$data['default']      = ($oldItem->id == 100) ? 1 : 0;
+			$data['show_all']     = ($oldItem->id == 100 || $oldItem->id == 110) ? 1 : 0;
 
 			$data['state']  = $oldItem->published;
 			$data['access'] = 1;
