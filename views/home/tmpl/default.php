@@ -25,7 +25,7 @@ HTMLHelper::_('stylesheet', 'media/com_synchronization/css/home.min.css', array(
 		<div class="span2">
 			<a href="/administrator/index.php?option=com_synchronization&view=geolocations">
 				<div class="img">
-					<span class="icon-warning-2  large-icon"></span>
+					<span class="icon-location large-icon"></span>
 				</div>
 				<div class="title">
 					<?php echo Text::_('COM_SYNCHRONIZATION_GEOLOCATIONS'); ?>
@@ -35,10 +35,20 @@ HTMLHelper::_('stylesheet', 'media/com_synchronization/css/home.min.css', array(
 		<div class="span2">
 			<a href="/administrator/index.php?option=com_synchronization&view=regions">
 				<div class="img">
-					<span class="icon-warning-2  large-icon"></span>
+					<span class="icon-location large-icon"></span>
 				</div>
 				<div class="title">
 					<?php echo Text::_('COM_SYNCHRONIZATION_REGIONS'); ?>
+				</div>
+			</a>
+		</div>
+		<div class="span2">
+			<a href="/administrator/index.php?option=com_synchronization&view=clean">
+				<div class="img">
+					<span class="icon-warning-2 large-icon"></span>
+				</div>
+				<div class="title">
+					<?php echo Text::_('COM_SYNCHRONIZATION_CLEAN'); ?>
 				</div>
 			</a>
 		</div>
